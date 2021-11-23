@@ -8,11 +8,11 @@ var s3 = new AWS.S3();
 const ruleDocument = [
 {
  regex : "007",
- webhook : "https://discord.com/api/webhooks/912590714012057620/caurK80wHtmB031vxwWCy0YeT3RZpgZysP1dxRt5_BGbwFNh9SVh1NT8_m44XjPSoT05"
+ webhook : "https://discord.com/api/webhooks/91259071"
  },
  {
  regex : "himym",
- webhook : "https://discord.com/api/webhooks/912600281026539560/7g-Jt1T44HhtrJtW3LNL00Q5BRgvGZ55DeguRUe5mcfbS2YiWuLtDus-eLIorGc_0Mcu"
+ webhook : "https://discord.com/api/webhooks/91260"
  }
 ]
 
