@@ -3,10 +3,8 @@
 **ABSTRACT**
 
 
-```
 Disposable mail boxes are a quick and efficient way to sign up to services which have the non-functional requirement of an email address of a user. They offer mailboxes which expire within a small period of time, the user may utilize the mailbox for that specified period of time after which it becomes inaccessible. This project identifies some of the issues with existing services and how to build such a system for small-scale usage. However, the infrastructure is designed in a way to keep costs minimum and easily scale for a large number of users. The tech stack is predominantly AWS + Nodejs.
 
-```
 
 
 
@@ -58,17 +56,7 @@ This application has an event driven architecture, which is a most used approach
 
     As a part of setting up the SES for this application we need a custom domain, it can be purchased from anywhere and Route 53 is one such service. For the domain verification, we need to add **MX **records into our domain's DNS records. 
 
-
-    
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image1.png "image_tooltip")
-
-
-
-    If the domain record is owned by aws the records will be configured automatically, otherwise we can go to our domain registrar and set them up manually.
+If the domain record is owned by aws the records will be configured automatically, otherwise we can go to our domain registrar and set them up manually.
 
 
     Once a mail is received the content is stored in **S3 **and an event is fired and delivered to the Lambda function. The event however contains only basic information like the **messageId ** of the email.
@@ -97,24 +85,14 @@ This application has an event driven architecture, which is a most used approach
     The Lambda function uses the **mailparser **library in nodejs, to parse the email body. After the body has been parsed the text content is ready for sending as a webhook event.
 
 4. **Rule Document**: The rule document is a json file stored just beside the lambda function code and it has the following structure:
-
-    
-
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+This application is so designed that it can be used by multiple users, probably each having their own private Discord Channels. To route the email to separate channels we associate each channel’s webhook endpoint with a **regex** expression. The destination address is then checked against each of the expressions, when there’s a match then email payload is sent to the associated webhook endpoint.
 
 
-![alt_text](images/image3.png "image_tooltip")
-
-
-
-    This application is so designed that it can be used by multiple users, probably each having their own private Discord Channels. To route the email to separate channels we associate each channel’s webhook endpoint with a **regex** expression. The destination address is then checked against each of the expressions, when there’s a match then email payload is sent to the associated webhook endpoint.
-
-
-    The document is basically a JSON Array containing objects having 2 parameters: **regex **and **webhook**.
+The document is basically a JSON Array containing objects having 2 parameters: **regex **and **webhook**.
 
 5. **Discord Client**: The Discord app on the User’s phone will receive the email body in one of the channels and will present the user with a normal notification. The channel however needs to be set up properly with the webhook endpoint in the rule document.
 
-    To get the webhook endpoint for a channel go to the channel settings, click on **Integrations >** **Webhooks**. 
+To get the webhook endpoint for a channel go to the channel settings, click on **Integrations >** **Webhooks**. 
 
 Click on **New Webhook. **Give it a suitable name, and click on **Copy Webhook URL**. Next make an entry in the rule document with the newly generated channel’s webhook endpoint, and any suitable **regex** expression. 
 
